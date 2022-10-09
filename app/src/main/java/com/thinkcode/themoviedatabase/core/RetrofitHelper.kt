@@ -8,7 +8,7 @@ object RetrofitHelper {
 
     fun getRetrofit(): Retrofit {
     return Retrofit.Builder()
-        .baseUrl("https://api.themoviedb.org/3/movie/")
+        .baseUrl(Constants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     }
