@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.DetailsActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/ivPortada"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="COCO" />
+
+        <TextView
+            android:id="@+id/tvGenero"
+            android:textColor="#FBC02D"
+            android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="400" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_200"
+                android:text="Languaje " />
+            <TextView
+                android:id="@+id/idiomaOriginal"
+                android:textColor="#F57C00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="400" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvOverview"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarThumbVertical="@color/white"
+            android:scrollbarFadeDuration="100"
+            android:scrollbars="vertical"
+            tools:text="blalbalbalbalbla blalbala" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_200"
+                android:text="Popularity "/>
+
+            <TextView
+                android:id="@+id/tvPopularity"
+                android:textColor="#FBC02D"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="blalbalbalbalbla blalbala" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_200"
+                android:layout_marginRight="10dp"
+                android:text="Release Date"/>
+            <TextView
+                android:id="@+id/tvReleaseDate"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="mayo 2022" />
+
+        </LinearLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
