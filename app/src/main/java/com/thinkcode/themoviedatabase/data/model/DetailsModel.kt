@@ -7,7 +7,7 @@ data class DetailsModel(
     val budget: Int,
     val genres: List<GenreX>,
     val homepage: String,
-    val id: Int,
+    val id: Int,//Cambiar a int
     val imdb_id: String,
     val original_language: String,
     val original_title: String,

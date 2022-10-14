@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -31,8 +32,8 @@ android {
         jvmTarget = '1.8'
     }
 
-    viewBinding{
-        enabled=true
+    viewBinding {
+        enabled = true
     }
 }
 
@@ -70,8 +71,13 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 
 
-
+   //PAGING
     implementation "androidx.paging:paging-runtime:$paging_version"
+
+    //ROOM
+    //  implementation("androidx.room:room-runtime:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
 
 
     testImplementation 'junit:junit:4.13.2'

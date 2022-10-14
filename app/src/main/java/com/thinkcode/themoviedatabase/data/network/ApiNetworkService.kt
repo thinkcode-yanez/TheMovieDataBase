@@ -33,14 +33,18 @@ interface ApiNetworkService {
         language: String = "en-US",
     ): Response<DetailsModel>//Result
 
-  /*  @GET("genre/movie/list")
-    suspend fun getGenero(
+    //https://api.themoviedb.org/3/search
+    // /movie?api_key=24ac229d39c79b4f0f4ea65264aefc24&language=en-US&query=HOLA&page=1&include_adult=false
+
+    //https://api.themoviedb.org/3/
+    // search/movie?api_key=24ac229d39c79b4f0f4ea65264aefc24&query=hocus
+
+    @GET("search/movie")
+    suspend fun searchMovie(
         @Query("api_key")
         apiKey: String = Constants.API_KEY,
-        @Query("language")
-        language: String = "en-US",
-    ): Response<GenerModel>*/
-
-
+        @Query("query")
+        query2:String="",
+    ): Response<TMDBModel>
 
 }

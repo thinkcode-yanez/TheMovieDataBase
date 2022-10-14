@@ -20,7 +20,8 @@
             android:id="@+id/ivPortada"
             android:layout_width="200dp"
             android:layout_height="300dp"
-            android:scaleType="fitCenter">
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_noimage_foreground">
 
         </ImageView>
 
@@ -30,15 +31,14 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="COCO" />
-
+            android:text="No Data Available" />
         <TextView
             android:id="@+id/tvGenero"
             android:textColor="#FBC02D"
             android:textStyle="italic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="400" />
+            android:text="No Data Available" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:textColor="#F57C00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="400" />
+                android:text="No Data Available" />
 
         </LinearLayout>
 
@@ -72,7 +72,7 @@
             android:scrollbarThumbVertical="@color/white"
             android:scrollbarFadeDuration="100"
             android:scrollbars="vertical"
-            tools:text="blalbalbalbalbla blalbala" />
+            android:text="No Data Available" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -87,7 +87,7 @@
                 android:textColor="#FBC02D"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="blalbalbalbalbla blalbala" />
+                android:text="No Data Available"/>
 
 
         </LinearLayout>
@@ -108,12 +108,22 @@
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="mayo 2022" />
+                android:text="No Data Available"/>
 
         </LinearLayout>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ProgressBar
+        android:id="@+id/barProgress"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 

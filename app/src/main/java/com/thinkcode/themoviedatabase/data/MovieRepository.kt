@@ -1,21 +1,30 @@
 package com.thinkcode.themoviedatabase.data
 
+import androidx.lifecycle.MutableLiveData
+import com.thinkcode.themoviedatabase.core.MovieApp.Companion.db
 import com.thinkcode.themoviedatabase.core.RetrofitHelper
+import com.thinkcode.themoviedatabase.data.database.entities.MovieEntitie
 import com.thinkcode.themoviedatabase.data.network.ApiNetworkService
 
 class MovieRepository {
 
     val retrofit = RetrofitHelper.getRetrofit()
-    val api=retrofit.create(ApiNetworkService::class.java)
+    val api = retrofit.create(ApiNetworkService::class.java)
 
+
+
+    //From API
     suspend fun getAllMovies(language: String, pageNumber: Int) =
+        api.getPopularMovies(pageNumber = pageNumber)
+    suspend fun getMovieById(movieid: Int) = api.getMovieById(movieid)
+    suspend fun searchMovie(query: String) = api.searchMovie(query2 = query)
 
-        //  api.getPopularMovies(language = language, pageNumber = pageNumber)
-        api.getPopularMovies(pageNumber = pageNumber)//quitar pagenumber
 
-    suspend fun getMovieById(movieid:Int) =
-        api.getMovieById(movieid)
-
+    //From ROOM DATABASE
+    suspend fun insertMovieInDataBase(movie: MovieEntitie) =
+        db.getMovieDao().insertMovie(movie = movie)
+    suspend fun getAllMovieFromDataBase() = db.getMovieDao().getAllMovies()
+    suspend fun getMovieByIdFromDatabase(id: Int) = db.getMovieDao().getMovieByIdFromDataBase(id)
 
 
 }
