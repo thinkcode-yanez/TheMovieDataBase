@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/rateMenu"
+        android:icon="@drawable/ic_baseline_star_rate_red_24"
+        android:title="Rate Movie"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/sessionMenu"
+        android:icon="@drawable/ic_baseline_child_care_white_24"
+        android:title="Session"
+        app:showAsAction="always" />
+</menu>
