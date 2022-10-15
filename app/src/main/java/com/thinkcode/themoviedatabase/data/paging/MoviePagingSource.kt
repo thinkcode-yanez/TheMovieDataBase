@@ -3,6 +3,7 @@ package com.thinkcode.themoviedatabase.data.paging
 import android.util.Log
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -17,6 +18,8 @@ class MoviePagingSource() : PagingSource<Int, Result>() {
 
 
 
+
+
     override fun getRefreshKey(state: PagingState<Int, Result>): Int? {
 
         return null
@@ -27,12 +30,9 @@ class MoviePagingSource() : PagingSource<Int, Result>() {
         return try{
             val currentPage = params.key?:1
             val response= movierepo.getAllMovies("en",currentPage)
-
-
             val data= response.body()?.results?: emptyList()
             val responseData= mutableListOf<Result>()
             responseData.addAll(data)
-
             LoadResult.Page(
                 data=responseData,
                 prevKey = if(currentPage==1) null else -1,

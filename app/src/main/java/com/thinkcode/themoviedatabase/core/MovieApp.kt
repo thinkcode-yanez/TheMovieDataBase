@@ -9,6 +9,8 @@ class MovieApp : Application() {
 
     companion object {
         lateinit var db: MovieDataBase
+        lateinit var prefs: Prefs
+
     }
 
     override fun onCreate() {
@@ -18,6 +20,9 @@ class MovieApp : Application() {
             MovieDataBase::class.java,
             "moviesdb"
             ).build()
+
+         prefs= Prefs(applicationContext)
+
 
     }
 }

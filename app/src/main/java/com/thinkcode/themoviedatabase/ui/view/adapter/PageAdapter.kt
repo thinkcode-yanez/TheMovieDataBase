@@ -35,12 +35,14 @@ class PageAdapter : PagingDataAdapter<Result, PageAdapter.MyViewHolder>(diffCall
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
        val currentItem=getItem(position)
         //this get item is from PageDataAdapter
         holder.binding.apply {
             tvtitleMovie.text=currentItem?.original_title
             val posterpath= Constants.PHOTO_BASE_URL+currentItem?.poster_path
             Glide.with(imageView.context).load(posterpath).into(imageView)
+
             imageView.setOnClickListener {
                 val intent= Intent(imageView.context, DetailsActivity::class.java)
                 intent.putExtra("ID",currentItem!!.id)
@@ -48,7 +50,6 @@ class PageAdapter : PagingDataAdapter<Result, PageAdapter.MyViewHolder>(diffCall
                 imageView.context.startActivity(intent)
             }
         }
-
 
 
     }
@@ -61,5 +62,6 @@ class PageAdapter : PagingDataAdapter<Result, PageAdapter.MyViewHolder>(diffCall
             )
         )
     }
+
 
 }

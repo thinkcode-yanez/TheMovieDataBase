@@ -15,7 +15,7 @@ data class DetailsModel(
     val popularity: Double,
     val poster_path: String,
     val release_date: String,
-    val revenue: Int,
+    val revenue: Long,//Anteriormente estaba en INT y crasheaba con TITANIC Y AVATAR , not anymore
     val runtime: Int,
     val status: String,
     val tagline: String,

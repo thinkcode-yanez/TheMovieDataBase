@@ -1,7 +1,9 @@
 package com.thinkcode.themoviedatabase.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
@@ -23,6 +25,8 @@ import com.thinkcode.themoviedatabase.ui.view.adapter.PageAdapter
 import com.thinkcode.themoviedatabase.ui.viewmodel.MovieViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -32,7 +36,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private val movieRepository = MovieRepository()
     private lateinit var mAdapter: PageAdapter
 
-   val moviePagingSource=MoviePagingSource()
+    val moviePagingSource = MoviePagingSource()
 
     private val movieViewModel: MovieViewModel by viewModels()
 
@@ -42,24 +46,17 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.svMovie.setOnQueryTextListener(this)
+
+        binding.barProgress.isVisible=true
+
+        Handler().postDelayed({
+            binding.barProgress.isVisible=false
+        },3000)
         initRecyclerPager()
-        // loadingData()
-       /* var lista = emptyList<MovieEntitie>()
-
-            GlobalScope.launch {
-                lista = movieRepository.getAllMovieFromDataBase()
-                Log.e("lista", lista[0].original_title)
-                Log.e("lista", lista[1].original_title)
-                Log.e("lista", lista[2].original_title)
-                Log.e("lista", lista[3].original_title)
-                Log.e("lista", lista[4].original_title)
-                Log.e("lista", lista[5].original_title)
 
 
 
 
-
-        }*/
 
 
         //OBSERVERS FROM VIEWMODEL LIVEDATA
@@ -84,23 +81,26 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 // hidekeyboard()
             }
         })
+        movieViewModel.sinresultados.observe(this, Observer {
+            if (it) {
+                Toast.makeText(this, "No Results.", Toast.LENGTH_LONG).show()
+            }
+
+        })
 
 
     }
 
-    private fun loadingData() {
-
+    private fun loadingData(){
         lifecycleScope.launch {
             movieViewModel.listData.collect() {
                 mAdapter.submitData(it)
-
             }
         }
 
     }
 
     private fun initRecyclerPager() {
-       // binding.barProgress.isVisible=true
         mAdapter = PageAdapter()
         binding.rvMovies.apply {
             layoutManager = StaggeredGridLayoutManager(
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             adapter = mAdapter
             setHasFixedSize(true)
         }
-        loadingData()
+       loadingData()
 
 
     }
@@ -125,10 +125,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         if (!newText.isNullOrEmpty()) {
-
             movieViewModel.searhMovie(newText.lowercase())
         } else {
             hidekeyboard()
+            //loadingData()
             initRecyclerPager()
         }
         return true
@@ -143,6 +143,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onResume() {
         super.onResume()
         hidekeyboard()
+        if (binding.rvMovies.adapter == null) {
+            Toast.makeText(this, "No Data", Toast.LENGTH_LONG).show()
+        }
     }
 
 }
