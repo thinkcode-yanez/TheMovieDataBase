@@ -1,6 +1,7 @@
 package com.thinkcode.themoviedatabase.core
 
 import android.content.Context
+import javax.inject.Inject
 
 class Prefs(val context:Context) {
 
