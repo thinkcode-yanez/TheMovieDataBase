@@ -11,10 +11,14 @@ import com.thinkcode.themoviedatabase.data.MovieRepository
 import com.thinkcode.themoviedatabase.data.model.Result
 import retrofit2.Retrofit
 import java.io.IOException
+import javax.inject.Inject
 
-class MoviePagingSource() : PagingSource<Int, Result>() {
+class MoviePagingSource @Inject constructor(
+    private val movierepo:MovieRepository
 
-    private val movierepo = MovieRepository()
+) : PagingSource<Int, Result>() {
+
+
 
 
 
@@ -29,7 +33,7 @@ class MoviePagingSource() : PagingSource<Int, Result>() {
 
         return try{
             val currentPage = params.key?:1
-            val response= movierepo.getAllMovies("en",currentPage)
+            val response= movierepo.getAllMovies(currentPage)
             val data= response.body()?.results?: emptyList()
             val responseData= mutableListOf<Result>()
             responseData.addAll(data)

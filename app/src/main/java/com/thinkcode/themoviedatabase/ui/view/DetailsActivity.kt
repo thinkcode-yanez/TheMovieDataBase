@@ -19,17 +19,22 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.thinkcode.themoviedatabase.R
 import com.thinkcode.themoviedatabase.core.Constants
-import com.thinkcode.themoviedatabase.core.MovieApp.Companion.prefs
-import com.thinkcode.themoviedatabase.data.MovieRepository
+import com.thinkcode.themoviedatabase.core.MovieApp.Companion.pref
+import com.thinkcode.themoviedatabase.core.Prefs
 import com.thinkcode.themoviedatabase.data.database.entities.MovieEntitie
 import com.thinkcode.themoviedatabase.databinding.ActivityDetailsBinding
 import com.thinkcode.themoviedatabase.ui.viewmodel.MovieViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityDetailsBinding
     private val movieViewModel: MovieViewModel by viewModels()
     private lateinit var builder: AlertDialog.Builder
+
 
 
     var title1 = ""
@@ -51,6 +56,7 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
 
         data = intent.getIntExtra("ID", 0)
@@ -137,23 +143,22 @@ class DetailsActivity : AppCompatActivity() {
         //TOKENS,SESSIONSID,RATE
         movieViewModel.tokenResponse.observe(this, Observer {
             token = it.request_token
-            // rateViewModel.setTokenOnDB(token)//GUARDAR TOKEN EN SHARED PREFERENCES
             openURL.data = Uri.parse("https://www.themoviedb.org/authenticate/$token/allow")
             startActivity(openURL)
         })
         movieViewModel.sessionResponse.observe(this, Observer {
-            session = it.session_id
-            prefs.saveSessionId(session)//SALVO LA SESION EN SHARED PREFERENCE
-            Log.e("sesion", it.toString())
-           // Toast.makeText(this, "Session Valida por 24 horas", Toast.LENGTH_LONG).show()
 
-            if(it.success==false){
+                session = it.session_id
+                pref.saveSessionId(session)//SALVO LA SESION EN SHARED PREFERENCE
+                Log.e("sesion", it.toString())
+            if(it.success.equals(null)) {
                 movieViewModel.getToken()
+
             }
 
-        })
+            })
         movieViewModel.rateResponse.observe(this, Observer {
-               // Toast.makeText(this,"Get new session id",Toast.LENGTH_LONG).show()
+
                Toast.makeText(this, it!!.status_message.toString(), Toast.LENGTH_LONG).show()
                // Log.e("rateActivity", it.status_message)
                // Log.e("rateCode", it.status_code.toString())*/
@@ -172,14 +177,14 @@ class DetailsActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.sessionMenu -> {
                 //rateViewModel.getDataSavedFromDB()
-                if(prefs.getSessionId().isNullOrEmpty()){
+                if(pref.getSessionId().isNullOrEmpty()){
                     movieViewModel.getToken()//PIDO TOKEN
                 }else{
                     Toast.makeText(this,"You have valid session active!",Toast.LENGTH_SHORT).show()
                 }
             }
             R.id.rateMenu -> {
-                if (prefs.getSessionId().isEmpty()) {
+                if (pref.getSessionId().isEmpty()) {
                     Toast.makeText(this, "You should log in first!", Toast.LENGTH_SHORT).show()
                 } else {
 
@@ -208,7 +213,7 @@ class DetailsActivity : AppCompatActivity() {
             val m_Text = input.text.toString().toInt()
             if(m_Text in 1..10) {
                 val rate= "$m_Text.0"
-                movieViewModel.setRate(data, prefs.getSessionId(), rate.toDouble() )
+                movieViewModel.setRate(data, pref.getSessionId(), rate.toDouble() )
                 //movieViewModel.setRate(data, "897ed660e71a477d29a7d31c5bb360c076e95cac", rate.toDouble() )
             }else{
                 Toast.makeText(this,"Choose range from 1 to 10",Toast.LENGTH_LONG).show()
@@ -226,8 +231,8 @@ class DetailsActivity : AppCompatActivity() {
         if (!token.isEmpty()) {
             movieViewModel.getSession(token)
             Toast.makeText(this, "Token Saved", Toast.LENGTH_LONG).show()
-        } else {
-           // Toast.makeText(this, "", Toast.LENGTH_LONG).show()
+        } else if(pref.getSessionId().isNullOrEmpty()){
+          // Toast.makeText(this, "No session Aprovved", Toast.LENGTH_LONG).show()
         }
 
     }

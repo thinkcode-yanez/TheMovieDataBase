@@ -16,28 +16,23 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.thinkcode.themoviedatabase.data.MovieRepository
-import com.thinkcode.themoviedatabase.data.database.entities.MovieEntitie
-import com.thinkcode.themoviedatabase.data.paging.MoviePagingSource
 import com.thinkcode.themoviedatabase.databinding.ActivityMainBinding
 import com.thinkcode.themoviedatabase.ui.view.adapter.MovieAdapter
 import com.thinkcode.themoviedatabase.ui.view.adapter.PageAdapter
 import com.thinkcode.themoviedatabase.ui.viewmodel.MovieViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.schedule
 
+
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityMainBinding
-
-    //Test
-    private val movieRepository = MovieRepository()
     private lateinit var mAdapter: PageAdapter
-
-    val moviePagingSource = MoviePagingSource()
-
     private val movieViewModel: MovieViewModel by viewModels()
 
 
@@ -46,6 +41,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.svMovie.setOnQueryTextListener(this)
+
 
         binding.barProgress.isVisible=true
 
@@ -115,10 +111,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        /* if (!query.isNullOrEmpty()) {
-
-             movieViewModel.searhMovie(query.lowercase())
-         }*/
         hidekeyboard()
         return true
     }
@@ -128,7 +120,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             movieViewModel.searhMovie(newText.lowercase())
         } else {
             hidekeyboard()
-            //loadingData()
             initRecyclerPager()
         }
         return true

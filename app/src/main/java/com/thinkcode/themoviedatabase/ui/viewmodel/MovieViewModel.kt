@@ -3,6 +3,7 @@ package com.thinkcode.themoviedatabase.ui.viewmodel
 import android.accounts.NetworkErrorException
 import android.text.BoringLayout
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -20,24 +21,27 @@ import com.thinkcode.themoviedatabase.data.model.ratemodels.Rate
 import com.thinkcode.themoviedatabase.data.model.ratemodels.Session
 import com.thinkcode.themoviedatabase.data.model.ratemodels.Token
 import com.thinkcode.themoviedatabase.data.paging.MoviePagingSource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import javax.inject.Inject
 
-class MovieViewModel : ViewModel() {
+
+@HiltViewModel
+class MovieViewModel @Inject constructor(
+    private  val movierepo:MovieRepository,
+) : ViewModel() {
 
     val pupularList: MutableLiveData<Resource<TMDBModel>> = MutableLiveData()
     val detailsList: MutableLiveData<Resource<DetailsModel>> =
         MutableLiveData()
     var progressbar = MutableLiveData<Boolean>()
     val nolista = MutableLiveData<Boolean>()
-    val movierepo = MovieRepository()
     val responseFromDatabase = MutableLiveData<List<MovieEntitie>>()
-
-
     //TEST
     val visitada = MutableLiveData<Boolean>()
     var tokenResponse=MutableLiveData<Token>()
@@ -48,7 +52,7 @@ class MovieViewModel : ViewModel() {
 
     //Lista para el Paginado. Pagin 3.0 Jetpack
     val listData = Pager(PagingConfig(1)) {
-        MoviePagingSource()
+        MoviePagingSource(movierepo)
     }.flow.cachedIn(viewModelScope)
 
 
@@ -59,7 +63,7 @@ class MovieViewModel : ViewModel() {
 
             try {
                 progressbar.value = true
-                val response = movierepo.getAllMovies(language, page)
+                val response = movierepo.getAllMovies(page)
                 progressbar.value = false
                 pupularList.postValue(handleResponse(response))
 
@@ -133,11 +137,18 @@ class MovieViewModel : ViewModel() {
     fun getSession(body: String)=viewModelScope.launch {
         try {
             val response=movierepo.getSession(body)
-           sessionResponse.postValue(response.body())
+          // sessionResponse.postValue(response.body())
             Log.e("session",response.body().toString())
-
+            if(!response.isSuccessful){
+                //getToken()
+                Log.e("fail","no fue aprovada")
+            }else {
+                sessionResponse.postValue(response.body())
+                Log.e("sessionGranted",response.message())
+            }
 
         }catch (e: IOException) {
+
             e.message?.let { Log.e("error", it) }
         } catch (e: Exception) {
             e.message?.let { Log.e("Formato Error", it) }
