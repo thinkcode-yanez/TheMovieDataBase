@@ -36,8 +36,9 @@ El usuario tambien podra acceder a informacion mas especifica pulsando en cualqu
 * LiveData
 * GLIDE
   
-  Para mayor informacion a detalle vea el siguiente link
-  https://youtu.be/rqHuoMmJdd0
+ Para mayor informacion a detalle vea el siguiente link
+ https://youtu.be/TgGoFtmwZcU
+ Saludos desde Mexico cesaryanezmtz@gmail.com
  
 
 
